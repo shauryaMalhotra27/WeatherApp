@@ -1,22 +1,17 @@
-
 package com.example.weatherapp;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ExampleCities {
 
     @SerializedName("error")
-    @Expose
     private Boolean error;
     @SerializedName("msg")
-    @Expose
     private String msg;
     @SerializedName("data")
-    @Expose
-    private List<Datum> data;
+    private ArrayList<Datum> data;
 
     public Boolean getError() {
         return error;
@@ -34,11 +29,11 @@ public class ExampleCities {
         this.msg = msg;
     }
 
-    public List<Datum> getData() {
+    public ArrayList<Datum> getData() {
         return data;
     }
 
-    public void setData(List<Datum> data) {
+    public void setData(ArrayList<Datum> data) {
         this.data = data;
     }
 

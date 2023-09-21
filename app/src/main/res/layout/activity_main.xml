@@ -18,30 +18,45 @@
             android:layout_height="match_parent"
             tools:context=".MainActivity">
 
-            <com.google.android.material.textfield.TextInputLayout
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/citySearch"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginHorizontal="30dp"-->
+<!--                android:layout_marginTop="50dp"-->
+<!--                android:hint="enter city name"-->
+<!--                android:theme="@style/MyTextInput"-->
+<!--                app:endIconMode="custom"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintVertical_bias="0"-->
+<!--                app:startIconDrawable="@drawable/search">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/citySearchET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:maxLength="20"-->
+<!--                    android:textSize="20sp" />-->
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <AutoCompleteTextView
                 android:id="@+id/citySearch"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="50dp"
-                android:hint="enter city name"
-                android:theme="@style/MyTextInput"
-                app:endIconMode="custom"
+                android:layout_marginHorizontal="20dp"
+                android:completionThreshold="1"
+                android:hint="search city"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:startIconDrawable="@drawable/search">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/citySearchET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="20"
-                    android:textSize="20sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintVertical_bias="0"/>
 
 
             <Button

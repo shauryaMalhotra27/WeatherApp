@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -20,9 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,13 +34,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    public ToggleButton changeTempFormat;
     LocationManager locationManager;
     String url = "http://api.weatherapi.com/v1/forecast.json?q={cityName}&key={apiKey}";
     String apiKey = "7d2f5b5a093f482aa9f70213231309";
-    TextInputLayout citySearch;
-    private TextInputEditText citySearchET;
+    AutoCompleteTextView citySearch;
+    Call<ExampleCities> exampleCitiesCall;
     private TextView citySearchBtn, showTemp, cityView, timeShow, minTempShow, maxTEmpShow, humidityShow, windSpeed, sunriseShow, sunsetShow, weatherConditionView;
-    public ToggleButton changeTempFormat;
     private ImageView imageView, iconViewCity;
     private String TAG = "main";
     private Call<Example> example1;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private ScrollView backgroundImage;
     private RecyclerView RVweather;
     private SwipeRefreshLayout swipeLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         g.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.TYPE_STATUS_BAR);
 
         citySearch = findViewById(R.id.citySearch);
-        citySearchET = findViewById(R.id.citySearchET);
+
         citySearchBtn = findViewById(R.id.citySearchBtn);
         backgroundImage = findViewById(R.id.backgroundImage);
         showTemp = findViewById(R.id.showTemp);
@@ -83,9 +83,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         citySearchBtn.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
+
+                citiesCountry();
                 getWeather();
+
             }
         });
 
@@ -108,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         ApiInterface myApi = retrofit.create(ApiInterface.class);
 
-        String cityName = citySearchET.getText().toString().trim();
+        String cityName = citySearch.getText().toString().trim();
 
         example1 = myApi.getweather(cityName, apiKey);
         example1.enqueue(new Callback<Example>() {
@@ -229,6 +234,56 @@ public class MainActivity extends AppCompatActivity {
             iconViewCity.setImageResource(R.drawable.moon_icon_yellow);
 
         }
+
+    }
+
+    public void citiesCountry() {
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://countriesnow.space/api/v0.1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiInterface2 myApi2 = retrofit.create(ApiInterface2.class);
+
+        exampleCitiesCall = myApi2.citiesCountry();
+        exampleCitiesCall.enqueue(new Callback<ExampleCities>() {
+            @Override
+            public void onResponse(Call<ExampleCities> call, Response<ExampleCities> response) {
+
+
+                ExampleCities myDataForCities = response.body();
+
+                ArrayList<Datum> data = myDataForCities.getData();
+                Log.d(TAG, "data" + data);
+
+                //initializing empty list
+                ArrayList<String> allDATA = new ArrayList<>();
+
+                for (int i = 0; i < data.size(); i++) {
+                    ArrayList<String> allCity = data.get(i).getCities();
+
+                    for (int j = 0; j < allCity.size(); j++) {
+                        String a = allCity.get(j);
+                        allDATA.add(String.valueOf(a));
+                    }
+                }
+
+
+                Log.d(TAG, "allDATA" + allDATA);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_activated_1, allDATA);
+                citySearch.setAdapter(arrayAdapter);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ExampleCities> call, Throwable t) {
+
+            }
+        });
+
 
     }
 

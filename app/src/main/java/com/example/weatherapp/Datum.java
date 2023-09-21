@@ -1,24 +1,19 @@
 package com.example.weatherapp;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Datum {
 
     @SerializedName("iso2")
-    @Expose
     private String iso2;
     @SerializedName("iso3")
-    @Expose
     private String iso3;
     @SerializedName("country")
-    @Expose
     private String country;
     @SerializedName("cities")
-    @Expose
-    private List<String> cities;
+    private ArrayList<String> cities;
 
     public String getIso2() {
         return iso2;
@@ -44,11 +39,11 @@ public class Datum {
         this.country = country;
     }
 
-    public List<String> getCities() {
+    public ArrayList<String> getCities() {
         return cities;
     }
 
-    public void setCities(List<String> cities) {
+    public void setCities(ArrayList<String> cities) {
         this.cities = cities;
     }
 
