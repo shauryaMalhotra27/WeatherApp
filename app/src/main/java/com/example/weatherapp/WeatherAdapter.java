@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +19,12 @@ import java.util.List;
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
     Context context;
     List<Hour> arrHour;
+    ToggleButton toggleButton;
 
-    public WeatherAdapter(Context context, List<Hour> arrHour) {
+    public WeatherAdapter(Context context, List<Hour> arrHour, ToggleButton toggleButton) {
         this.context = context;
         this.arrHour = arrHour;
+        this.toggleButton = toggleButton;
     }
 
     @NonNull
@@ -40,11 +43,26 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
         Glide.with(context)
                 .load(Uri.parse("https:" + arrHour.get(position).getCondition().getIcon()))
                 .into(holder.RVimageView);
-        // holder.RVimageView.setImageResource(Integer.parseInt("https:" + arrHour.get(position).getCondition().getIcon()));
+
         holder.RVcondition.setText(arrHour.get(position).getCondition().getText());
         holder.RVdate.setText(arrHour.get(position).getTime().substring(0, 10));
         holder.RVtime.setText(arrHour.get(position).getTime().substring(11));
+
+//        toggleButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (toggleButton.isChecked()){
+//                    holder.RVtempShow.setText(String.valueOf(arrHour.get(position).getTempC()) + " °C");
+//                }
+//                else {
+//                    holder.RVtempShow.setText(String.valueOf(arrHour.get(position).getTempF()) + " °F");
+//                }
+//            }
+//        });
+
         holder.RVtempShow.setText(String.valueOf(arrHour.get(position).getTempC()) + " °C");
+
+
     }
 
     @Override

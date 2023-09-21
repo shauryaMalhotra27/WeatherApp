@@ -117,6 +117,21 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/timeShow" />
 
+            <ToggleButton
+                android:id="@+id/changeTempFormat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/change"
+                android:textOff=""
+                android:textOn=""
+                app:layout_constraintBottom_toTopOf="@id/maxTEmpShow"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintLeft_toRightOf="@id/minTempShow"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/minTempShow" />
+
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="120dp"
@@ -131,8 +146,9 @@
 
             <TextView
                 android:id="@+id/weatherConditionView"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="contdition"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -292,7 +308,6 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tableLayout" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

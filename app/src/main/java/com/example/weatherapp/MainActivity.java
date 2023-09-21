@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     TextInputLayout citySearch;
     private TextInputEditText citySearchET;
     private TextView citySearchBtn, showTemp, cityView, timeShow, minTempShow, maxTEmpShow, humidityShow, windSpeed, sunriseShow, sunsetShow, weatherConditionView;
+    public ToggleButton changeTempFormat;
     private ImageView imageView, iconViewCity;
     private String TAG = "main";
     private Call<Example> example1;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         weatherConditionView = findViewById(R.id.weatherConditionView);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         RVweather = findViewById(R.id.RVweather);
+        changeTempFormat = findViewById(R.id.changeTempFormat);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RVweather.setLayoutManager(horizontalLayoutManager);
 
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getWeather() {
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.weatherapi.com/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -128,26 +132,31 @@ public class MainActivity extends AppCompatActivity {
                     List<Hour> hour = forecast.getForecastday().get(0).getHour();
 
                     //setting adapter
-                    WeatherAdapter adapter = new WeatherAdapter(MainActivity.this, hour);
+                    WeatherAdapter adapter = new WeatherAdapter(MainActivity.this, hour, changeTempFormat);
                     RVweather.setAdapter(adapter);
 
                     // calling by reference and setting values to the respective viewText fields
                     // Double tempC = current.getTempC();
                     // int tempCInt = tempC.intValue();
                     int tempCInt = current.getTempC().intValue();
+                    int tempFInt = current.getTempF().intValue();
+                    Log.d(TAG, "onResponse: " + tempFInt);
                     String cityL = location.getName();
                     String imageC = current.getCondition().getIcon();
                     String timeL = location.getLocaltime().substring(10);
                     String humidity = String.valueOf(current.getHumidity());
                     int windspeed = current.getWindKph().intValue();
                     String weatherCond = current.getCondition().getText();
-                    int minTemp = forecast.getForecastday().get(0).getDay().getMintempC().intValue();
-                    int maxTemp = forecast.getForecastday().get(0).getDay().getMaxtempC().intValue();
+                    int minTempC = forecast.getForecastday().get(0).getDay().getMintempC().intValue();
+                    int minTempF = forecast.getForecastday().get(0).getDay().getMintempF().intValue();
+                    Log.d(TAG, "onResponse: " + minTempF);
+                    int maxTempC = forecast.getForecastday().get(0).getDay().getMaxtempC().intValue();
+                    int maxTempF = forecast.getForecastday().get(0).getDay().getMaxtempF().intValue();
+                    Log.d(TAG, "onResponse: " + maxTempF);
                     String sunRise = forecast.getForecastday().get(0).getAstro().getSunrise();
                     String sunSet = forecast.getForecastday().get(0).getAstro().getSunset();
                     //way 2
                     //Double maxtemp2 = forecast.getForecastday().get(0).getDay().getMaxtempC();
-
                     //setting values to their respective fields
                     showTemp.setText(tempCInt + "°C");
                     cityView.setText(cityL);
@@ -157,11 +166,25 @@ public class MainActivity extends AppCompatActivity {
                     humidityShow.setText(humidity);
                     windSpeed.setText(windspeed + " kmph");
                     weatherConditionView.setText(weatherCond);
-                    minTempShow.setText("min = " + minTemp + "°C");
-                    maxTEmpShow.setText("max = " + maxTemp + "°C");
+                    minTempShow.setText("min = " + minTempC + "°C");
+                    maxTEmpShow.setText("max = " + maxTempC + "°C");
                     sunriseShow.setText(sunRise);
                     sunsetShow.setText(sunSet);
 
+                    changeTempFormat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (changeTempFormat.isChecked()) {
+                                showTemp.setText(tempFInt + "°F");
+                                minTempShow.setText("min = " + minTempF + "°F");
+                                maxTEmpShow.setText("max = " + maxTempF + "°F");
+                            } else {
+                                showTemp.setText(tempCInt + "°C");
+                                minTempShow.setText("min = " + minTempC + "°C");
+                                maxTEmpShow.setText("max = " + maxTempC + "°C");
+                            }
+                        }
+                    });
 
                     Glide.with(MainActivity.this)
                             .load(Uri.parse("https:" + imageC))
@@ -182,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                         backgroundImage.setBackground(getDrawable(R.drawable.rainy_screen));
 
                     }
-
 
                     dayOrNight();
 
