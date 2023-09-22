@@ -14,9 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherApp"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".BeginingActivity"
-            android:exported="false" />
+
         <activity
             android:name=".splash_screen"
             android:exported="true">
