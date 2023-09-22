@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView citySearch;
     Call<ExampleCities> exampleCitiesCall;
     private String cityName;
-    private TextView citySearchBtn, showTemp, cityView, timeShow, minTempShow, maxTEmpShow, humidityShow, windSpeed, sunriseShow, sunsetShow, weatherConditionView;
+    private TextView citySearchBtn, showTemp, cityView, timeShow, minTempShow, maxTEmpShow, humidityShow, windSpeed, sunriseShow, sunsetShow, weatherConditionView, countryView;
     private ImageView imageView, iconViewCity;
     private String TAG = "main";
     private Call<Example> example1;
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         backgroundImage = findViewById(R.id.backgroundImage);
         showTemp = findViewById(R.id.showTemp);
         cityView = findViewById(R.id.cityView);
+        countryView = findViewById(R.id.countryView);
         imageView = findViewById(R.id.imageView);
         timeShow = findViewById(R.id.timeShow);
         minTempShow = findViewById(R.id.minTempShow);
@@ -144,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
                     int tempFInt = current.getTempF().intValue();
                     Log.d(TAG, "onResponse: " + tempFInt);
                     String cityL = location.getName();
+                    String countryL = location.getCountry();
+                    String regionL = location.getRegion();
                     String imageC = current.getCondition().getIcon();
                     String timeL = location.getLocaltime().substring(10);
                     String humidity = String.valueOf(current.getHumidity());
@@ -162,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     //setting values to their respective fields
                     showTemp.setText(tempCInt + "°C");
                     cityView.setText(cityL);
+                    countryView.setText(regionL + ", " + countryL);
                     dayCode = current.getIsDay();
                     cloud = current.getCloud();
                     timeShow.setText(timeL);
