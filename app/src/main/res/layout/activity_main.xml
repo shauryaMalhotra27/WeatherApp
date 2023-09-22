@@ -43,6 +43,7 @@
 
             <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
+            />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/citySearchLayout"
@@ -63,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:completionThreshold="2"
-
+                    android:inputType="text"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -334,6 +335,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tableLayout" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

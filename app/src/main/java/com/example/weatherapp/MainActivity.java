@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     String apiKey = "7d2f5b5a093f482aa9f70213231309";
     AutoCompleteTextView citySearch;
     Call<ExampleCities> exampleCitiesCall;
+    private String cityName;
     private TextView citySearchBtn, showTemp, cityView, timeShow, minTempShow, maxTEmpShow, humidityShow, windSpeed, sunriseShow, sunsetShow, weatherConditionView;
     private ImageView imageView, iconViewCity;
     private String TAG = "main";
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         g.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.TYPE_STATUS_BAR);
 
         citySearch = findViewById(R.id.citySearch);
-
         citySearchBtn = findViewById(R.id.citySearchBtn);
         backgroundImage = findViewById(R.id.backgroundImage);
         showTemp = findViewById(R.id.showTemp);
@@ -81,20 +81,17 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RVweather.setLayoutManager(horizontalLayoutManager);
 
+        //function to get weather initialized and cities country on create
+        citiesCountry();
 
         citySearchBtn.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View view) {
-
-                citiesCountry();
                 getWeather();
+                citiesCountry();
 
             }
         });
-
-
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -104,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //----------------------------------------------------------------------------------------------
     public void getWeather() {
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -112,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         ApiInterface myApi = retrofit.create(ApiInterface.class);
-
-        String cityName = citySearch.getText().toString().trim();
+        cityName = citySearch.getText().toString().trim();
 
         example1 = myApi.getweather(cityName, apiKey);
         example1.enqueue(new Callback<Example>() {
@@ -256,13 +253,16 @@ public class MainActivity extends AppCompatActivity {
                 ExampleCities myDataForCities = response.body();
 
                 ArrayList<Datum> data = myDataForCities.getData();
-                Log.d(TAG, "data" + data);
+
 
                 //initializing empty list
                 ArrayList<String> allDATA = new ArrayList<>();
 
                 for (int i = 0; i < data.size(); i++) {
                     ArrayList<String> allCity = data.get(i).getCities();
+                    String country = data.get(i).getCountry();
+                    Log.d(TAG, "country" + country);
+                    allDATA.add(country);
 
                     for (int j = 0; j < allCity.size(); j++) {
                         String a = allCity.get(j);
@@ -281,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ExampleCities> call, Throwable t) {
 
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
