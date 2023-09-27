@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
@@ -46,7 +49,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 
         holder.RVcondition.setText(arrHour.get(position).getCondition().getText());
         holder.RVdate.setText(arrHour.get(position).getTime().substring(0, 10));
-        holder.RVtime.setText(arrHour.get(position).getTime().substring(11));
+        // holder.RVtime.setText(arrHour.get(position).getTime().substring(11));
 
 //        toggleButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -59,6 +62,17 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 //                }
 //            }
 //        });
+
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-mm-dd hh:mm");
+        SimpleDateFormat output = new SimpleDateFormat("hh:mm aa");
+
+        try {
+            Date date = input.parse(arrHour.get(position).getTime());
+            holder.RVtime.setText(output.format(date));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
 
         holder.RVtempShow.setText(String.valueOf(arrHour.get(position).getTempC()) + " °C");
 

@@ -25,7 +25,7 @@ public class splash_screen extends AppCompatActivity {
 
         videoView = (VideoView) findViewById(R.id.videoView);
 
-        String path = "android.resource://com.example.weatherappsam/" + R.raw.raining_gif;
+        String path = "android.resource://com.example.weatherappsam/" + R.raw.rain;
         Uri uri = Uri.parse(path);
         videoView.setVideoURI(uri);
         videoView.start();

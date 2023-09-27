@@ -8,12 +8,12 @@
     <style name="Theme.WeatherApp" parent="Base.Theme.WeatherApp" />
 
     <style name="MyTextInput">
-        <item name="colorOnSurface">@color/black</item>
-        <item name="colorPrimary">@color/black</item>
-        <item name="android:textColorHint">@color/black</item>
-        <item name="boxStrokeColor">@color/black</item>
-        <item name="hintTextColor">@color/black</item>
-        <item name="iconTint">@color/black</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="hintTextColor">@color/white</item>
+        <item name="iconTint">@color/white</item>
     </style>
 
 
